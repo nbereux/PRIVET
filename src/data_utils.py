@@ -1,5 +1,4 @@
 import numpy as np
-import torch #TODO: remove
 
 #for loading genetic data, specifically the 66 samples datasets
 def load_data(path):
@@ -34,7 +33,7 @@ def generate_fake_synth(train: np.ndarray, synth: np.ndarray, indices: np.ndarra
         # Hybridize between synth and train
         snp_mask = np.zeros(L,dtype=bool)
         snp_mask[:int(f_copy*L)] = True
-        np.random.shuffle(snp_mask) #is it necessary?
+        np.random.shuffle(snp_mask) #is it necessary? -> if hamming no, if more complex distance yes
         fake[s] = np.where(snp_mask == True, train[idx_train], synth[s])
 
-    return torch.tensor(fake,dtype=torch.uint8) #TODO: leave it as np array
+    return fake
