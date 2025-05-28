@@ -92,7 +92,7 @@ def PRIVET(train, test, synthetic, intercept, alpha, renormalization = None, dis
         groundtruth_flag=True
 
     #table containing:  d_STr^*, i_s, i_r^Tr (sorted on d_STr^*) -- plus the groundtruth if existing
-    sorted_mat_syn_train=mat_syn_train[mat_syn_train[:, 0].argsort()]
+    sorted_mat_syn_train = mat_syn_train[mat_syn_train[:, 0].argsort()]
     #table containing:  d_STe^*, i_s, i_r^Te (sorted on d_STe^*) -- plus the groundtruth if existing
     sorted_mat_syn_test = mat_syn_test[mat_syn_test[:, 0].argsort()]
     
