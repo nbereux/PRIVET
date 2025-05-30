@@ -1,7 +1,7 @@
 #author ran this script on 1x A100-40GB
 
 import sys
-PATH = "/scratch/aszatkow/work/projects"
+PATH = "your/path/to/PRIVET/repo"
 sys.path.append(f"{PATH}/PRIVET")
 
 import time
@@ -185,6 +185,8 @@ time_PRIVET, time_FLD, time_AUTH, time_CT, time_PQM = [], [], [], [], []
 
 threshold = -3
 
+PATH = "your/path/to/data"
+
 torch.manual_seed(42)
 for transform_fn, name in zip(transforms_lst, transform_names):
     print(name)
@@ -192,7 +194,9 @@ for transform_fn, name in zip(transforms_lst, transform_names):
     train_dataset_trans = CIFAR10(root="data", train=True, download=True, transform=transform_fn)
     train_feat_trans = feature_extractor.get_features(train_dataset_trans, name=f"{name}_train", recompute=False)
 
-    synthetic_full = ImageFolder(root="/scratch/aszatkow/work/data_home/CIFAR10-PFGMPP", transform=transform_fn)
+    # https://drive.google.com/file/d/18JmcCOZ8LQe65ab4_jbqMKhDKfrgkLvo/view 
+    #from https://github.com/layer6ai-labs/dgm-eval/tree/master
+    synthetic_full = ImageFolder(root=f"{PATH}/CIFAR10-PFGMPP", transform=transform_fn)
     synthetic_dataset = downsample_dataset(synthetic_full, n_per_class=1000)
     gen_feat = feature_extractor.get_features(synthetic_dataset, name=f"{name}_syn", recompute=False)
 

@@ -1,7 +1,7 @@
 #author ran this script on 1x A100-40GB
 
 import sys
-PATH = "/scratch/aszatkow/work/projects"
+PATH = "your/path/to/PRIVET/repo"
 sys.path.append(f"{PATH}/PRIVET")
 
 import time
@@ -29,10 +29,12 @@ from fld.metrics.CTTest import CTTest
 from fld.metrics.FLD import FLD
 from fld.features.DINOv2FeatureExtractor import DINOv2FeatureExtractor
 
+# https://github.com/BonnBytes/PyTorch-FWD/tree/master
 import pytorchfwd
 from tqdm import tqdm
 
-sys.path.append("/home/tau/aszatkow/miniforge3/envs/wavelet/lib/python3.10/site-packages/pytorchfwd") 
+PATH = "your/path/to/package"
+sys.path.append(f"{PATH}/pytorchfwd") 
 
 from freq_math import calculate_frechet_distance, forward_wavelet_packet_transform
 from utils import ImagePathDataset, _parse_args
@@ -190,7 +192,10 @@ test_loader = DataLoader(
     datasets.CIFAR10("data", train=False, download=True,
                     transform=transform),batch_size=64, shuffle=True)
 
-synthetic_full = ImageFolder(root="/scratch/aszatkow/work/data_home/CIFAR10-PFGMPP",
+# https://drive.google.com/file/d/18JmcCOZ8LQe65ab4_jbqMKhDKfrgkLvo/view 
+#from https://github.com/layer6ai-labs/dgm-eval/tree/master
+PATH = "your/path/to/data"
+synthetic_full = ImageFolder(root=f"{PATH}/CIFAR10-PFGMPP",
                              transform=transform)
 
 synthetic_dataset = downsample_dataset(synthetic_full, n_per_class=1000)
@@ -278,7 +283,8 @@ for transform_fn, name in zip(transforms_lst, transform_names):
     train_feat_trans = train_feat_trans.reshape(-1,train_feat_trans.shape[1]*train_feat_trans.shape[2])
     del train_dataset_trans
 
-    synthetic_full = ImageFolder(root="/scratch/aszatkow/work/data_home/CIFAR10-PFGMPP",
+    PATH = "your/path/to/data"
+    synthetic_full = ImageFolder(root=f"{PATH}/CIFAR10-PFGMPP",
                                  transform=transform_fn)
     synthetic_dataset = downsample_dataset(synthetic_full, n_per_class=1000)
     synthetic_loader = DataLoader(
