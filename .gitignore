@@ -3,3 +3,6 @@ src/.ipynb_checkpoints/
 src/__pycache__/
 tests/.ipynb_checkpoints/
 metrics/__pycache__
+__pycache__/
+*.py[cod]
+
