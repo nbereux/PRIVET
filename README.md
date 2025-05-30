@@ -6,6 +6,6 @@
 
 - Main.Fig.2 and Appendix.Fig.7 are reproducible through: compile `PRIVET/experiments/genetic_leakage/65K_SNPs_1668_samples.py` to compute the privacy maps ($\sim 3$ hours on $1 \times$ A100-40GB) then plot them via `PRIVET/experiments/genetic_leakage/PLOT_65K_SNPs_1668_samples.ipynb`. Change the grid from $3 \times 3$ to $31 \times 31$
 
-- Main.Fig.3 is reproducible through: compile `PRIVET/experiments/copycat_cifar10/comparison_dinov2.py` for long computations (< 3 hours on $1 \times$ A100-40GB) then plot them via `PRIVET/experiments/copycat_cifar10/PLOT_comparison_dinov2.ipynb`. Change the transformations and the $\beta$ values by un-commenting. Repeat the same for Wavelet embeddings
+- Main.Fig.3 is reproducible through: compile `PRIVET/experiments/copycat_cifar10/comparison_dinov2.py` for long computations (< 3 hours on $1 \times$ A100-40GB) then plot them via `PRIVET/experiments/copycat_cifar10/PLOT_comparison.ipynb`. Change the transformations and the $\beta$ values by un-commenting. Repeat the same for Wavelet embeddings
 
 - Appendix.Fig.5 and Appendix.Fig.6 are reproducible through`PRIVET/experiments/genetic_leakage/low_sample_size.ipynb`
