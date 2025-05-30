@@ -8,4 +8,6 @@
 
 - Main.Fig.3 is reproducible through: compile `PRIVET/experiments/copycat_cifar10/comparison_dinov2.py` for long computations (< 3 hours on $1 \times$ A100-40GB) then plot them via `PRIVET/experiments/copycat_cifar10/PLOT_comparison.ipynb`. Change the transformations and the $\beta$ values by un-commenting. Repeat the same for Wavelet embeddings
 
+- Main.Fig.4 is reproducible through `PRIVET/experiments/membership_attack/65K_controlled_leakage.ipynb` and `PRIVET/experiments/membership_attack/RBM_HGD.ipynb`
+
 - Appendix.Fig.5 and Appendix.Fig.6 are reproducible through`PRIVET/experiments/genetic_leakage/low_sample_size.ipynb`
