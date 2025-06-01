@@ -15,7 +15,7 @@
 
 ## TODO
 
-**urgent** \
+**urgent** \\
 - [ ] try using same rank on test for the basic score
 
 - [x] Add Gumbel case (it's still estimated via linear regression though) and choose best fit
