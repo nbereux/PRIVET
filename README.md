@@ -11,3 +11,15 @@
 - Main.Fig.4 is reproducible through `PRIVET/experiments/membership_attack/65K_controlled_leakage.ipynb` and `PRIVET/experiments/membership_attack/RBM_HGD.ipynb`
 
 - Appendix.Fig.5 and Appendix.Fig.6 are reproducible through`PRIVET/experiments/genetic_leakage/low_sample_size.ipynb`
+
+
+## TODO
+
+**urgent** \
+- [ ] try using same rank on test for the basic score
+
+- [x] Add Gumbel case (it's still estimated via linear regression though) and choose best fit
+- [ ] change linear regression to maximum likelihood
+- [ ] change binom.sf and binom.cdf to binom.logsf and binom.logcdf when no under/over-flow alarm & implement them manually with numba when alarm case
+- [ ] add all the scores for `compute_scores()` function
+- [ ] make a quick start example (subsection in the readme) on how to use PRIVET in a minimal setting, and how to parse/read the results
