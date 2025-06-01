@@ -5,7 +5,7 @@ import numpy as np
 threshold=-3
 
 ############################
-## FIT CDF on Train-Train ##
+## EVT FIT CDF on Train-Train ##
 ############################
 
 partition_start = 0.01

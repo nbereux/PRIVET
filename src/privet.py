@@ -5,7 +5,7 @@ import types
 
 #mat_syn_train is actually sorted_mat_syn_train
 #TODO: handle GUMBEL parameters
-def compute_scores(mat_syn_train, mat_syn_test, intercept, alpha, groundtruth_flag):
+def compute_scores(mat_syn_train, mat_syn_test, param1, param2, label_fit, groundtruth_flag):
 
     N = mat_syn_train.shape[0] #size of d_{STr}^*
 
@@ -26,9 +26,14 @@ def compute_scores(mat_syn_train, mat_syn_test, intercept, alpha, groundtruth_fl
     
         row_test = mat_syn_test[rank_s_te]
         dist_test = row_test[0].item()
-    
-        px_train = cdf_weibull_extrapolate(dist_train, intercept, alpha) #TODO: handle different cases
-        px_test = cdf_weibull_extrapolate(dist_test, intercept, alpha)
+
+        if label_fit == "Gumbel":
+            func = cdf_gumbel_extrapolate
+        else:
+            func = cdf_weibull_extrapolate
+        
+        px_train = func(dist_train, param1, param2)
+        px_test  = func(dist_test,  param1, param2)
     
         pi_train_i=binomial_survival(px_train, rank_s_tr, N) #TODO: use correct func
         pi_test_i=binomial_survival(px_test, rank_s_te, N)
@@ -49,7 +54,7 @@ def compute_scores(mat_syn_train, mat_syn_test, intercept, alpha, groundtruth_fl
 
     return store_in_mat
 
-def PRIVET(train, test, synthetic, intercept, alpha, renormalization = None, distance='standard_euclidean', device=None, groundtruth = None):
+def PRIVET(train, test, synthetic, param1, param2, label_fit, renormalization = None, distance='standard_euclidean', device=None, groundtruth = None):
     
     ############################
     ## COMPUTE 1-NN distances ##
@@ -96,7 +101,7 @@ def PRIVET(train, test, synthetic, intercept, alpha, renormalization = None, dis
     #table containing:  d_STe^*, i_s, i_r^Te (sorted on d_STe^*) -- plus the groundtruth if existing
     sorted_mat_syn_test = mat_syn_test[mat_syn_test[:, 0].argsort()]
     
-    store_in_mat = compute_scores(sorted_mat_syn_train, sorted_mat_syn_test, intercept, alpha, groundtruth_flag=groundtruth_flag)
+    store_in_mat = compute_scores(sorted_mat_syn_train, sorted_mat_syn_test, param1, param2, label_fit, groundtruth_flag=groundtruth_flag)
     
     return store_in_mat, p_syn_tr_NN_dist, p_syn_te_NN_dist
 
