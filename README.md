@@ -15,12 +15,12 @@
 
 ## TODO
 
-**urgent**
-- [ ] try using same rank on test for the basic score
-
 **priority2**
-- [x] Add Gumbel case (it's still estimated via linear regression though) and choose best fit
+- [ ] experiment on what should be the renormalization factor in gumbel case
+- [ ] do a class for privet (compute 1-NN, EVT fit, decide renormalization based on user or default, decide partition based on user or default, same for threshold ...)
 - [ ] change linear regression to maximum likelihood
-- [ ] change binom.sf and binom.cdf to binom.logsf and binom.logcdf when no under/over-flow alarm & implement them manually with numba when alarm case
-- [ ] add all the scores for `compute_scores()` function
 - [ ] make a quick start example (subsection in the readme) on how to use PRIVET in a minimal setting, and how to parse/read the results
+- [x] Add Gumbel case (it's still estimated via linear regression though) and choose best fit
+- [x] try using same rank on test for the basic score (cf score4)
+- [x] change binom.sf and binom.cdf to binom.logsf and binom.logcdf when no under/over-flow alarm & implement them manually with numba when alarm case
+- [x] add all the scores for `compute_scores()` function
