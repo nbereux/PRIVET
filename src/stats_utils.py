@@ -1,5 +1,3 @@
-#TODO: add GUMBEL
-
 import numpy as np
 from scipy.stats import binom
 
@@ -21,6 +19,129 @@ def binomial_survival(px, k, N):
     z=binom.sf(k, N, px, loc=0)
     if z<=CUTOFF:z=CUTOFF
     return z
+
+def binomial_cdf(px, k, N):
+    z=binom.cdf(k, N, px, loc=0)
+    if z<=CUTOFF:z=CUTOFF
+    return z
+
+from scipy.special import betainc
+from numba import njit
+
+# ---------------------------
+# (A) Numba‐compiled manual‐logarithm fallbacks (natural‐log):
+# ---------------------------
+
+@njit
+def _manual_logcdf_natural_numba(k, n, p):
+    """
+    Return ln[P(X ≤ k)] for X ~ Binom(n,p),
+    computed by summing j=0…k in log-space via log-sum-exp.
+    """
+    # ln(p) and ln(1-p)
+    log_p = np.log(p)
+    log_q = np.log1p(-p)
+
+    # ℓ₀ = ln P(X=0) = n * ln(1-p)
+    lj = n * log_q
+    total = lj
+
+    # Iterate j = 1 ... k
+    for j in range(1, k + 1):
+        # ℓ_j = ℓ_{j-1} + ln(n-j+1) - ln(j) + ln(p) - ln(1-p)
+        lj = (lj
+              + np.log(n - j + 1)
+              - np.log(j)
+              + log_p
+              - log_q)
+        # log-sum-exp update:
+        if total > lj:
+            M = total
+        else:
+            M = lj
+        total = M + np.log(np.exp(total - M) + np.exp(lj - M))
+
+    return total  # natural log of CDF
+
+
+@njit
+def _manual_logsf_natural_numba(k, n, p):
+    """
+    Return ln[P(X > k)] for X ~ Binom(n,p),
+    computed by summing j=n…(k+1) in log-space via log-sum-exp.
+    """
+    log_p = np.log(p)
+    log_q = np.log1p(-p)
+
+    # ℓ_n = ln P(X=n) = n * ln(p)
+    lj = n * log_p
+    total = lj
+
+    # Step downward: j = n-1, n-2, ..., k+1
+    for j in range(n - 1, k, -1):
+        # ℓ_j = ℓ_{j+1} + ln(j+1) - ln(n-j) + ln(1-p) - ln(p)
+        lj = (lj
+              + np.log(j + 1)
+              - np.log(n - j)
+              + log_q
+              - log_p)
+        # log-sum-exp update:
+        if total > lj:
+            M = total
+        else:
+            M = lj
+        total = M + np.log(np.exp(total - M) + np.exp(lj - M))
+
+    return total  # natural log of survival
+
+
+# ---------------------------
+# (B) “Safe” wrappers that output in log10, calling the Numba fallbacks
+# ---------------------------
+
+LN10 = np.log(10.0)
+
+
+def safe_log10_cdf(k, n, p):
+    """
+    Returns log10[ P(X ≤ k) ] for X ~ Binom(n,p), robust down to extremely small probabilities.
+    """
+    # 1) Degenerate‐p cases:
+    if p == 0.0:
+        return 0.0
+    if p == 1.0:
+        return 0.0 if k >= n else -np.inf
+
+    # 2) Try incomplete-beta in C (natural-log)
+    with np.errstate(divide="ignore"):
+        nat = np.log(betainc(n - k, k + 1, 1 - p))
+
+    if np.isfinite(nat):
+        return nat / LN10
+
+    # 3) Underflow fallback: call Numba‐compiled loop, then /ln(10)
+    return _manual_logcdf_natural_numba(k, n, p) / LN10
+
+
+def safe_log10_sf(k, n, p):
+    """
+    Returns log10[ P(X > k) ] for X ~ Binom(n,p), robust down to extremely small probabilities.
+    """
+    # 1) Degenerate‐p cases:
+    if p == 0.0:
+        return -np.inf
+    if p == 1.0:
+        return 0.0 if k < n else -np.inf
+
+    # 2) Try incomplete-beta in C (natural-log)
+    with np.errstate(divide="ignore"):
+        nat = np.log(betainc(k + 1, n - k, p))
+
+    if np.isfinite(nat):
+        return nat / LN10
+
+    # 3) Underflow fallback: call Numba‐compiled loop, then /ln(10)
+    return _manual_logsf_natural_numba(k, n, p) / LN10
 
 
 #TODO: do maximum likelihood instead
