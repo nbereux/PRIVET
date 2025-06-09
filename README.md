@@ -14,7 +14,7 @@ The partition of the data (**a hyperparameter of the method**) on which the EVT 
 import sys
 PATH = "/your/path/to"
 sys.path.append(f"{PATH}/PRIVET")
-from src.privet_class import *
+from src.privet import *
 
 distance = "hamming" # else: "standard_euclidean"
 
