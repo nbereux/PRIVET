@@ -41,6 +41,27 @@ threshold = -3
 NPL = delta_pi <= threshold #boolean for each synthetic samples: privacy leak or not 
 ```
 
+Here is how to plot $d_{TrTr}^*$ (the distribution of nearest neighbor distances from train to train samples) and its EVD fit.   
+
+```python
+import sys
+PATH = "/your/path/to"
+sys.path.append(f"{PATH}/PRIVET")
+from src.privet import *
+
+distance = "hamming" # else: "standard_euclidean"
+
+privet = PRIVET(train, \
+    device, \
+    partition_fit_start=0.01, \
+    partition_fit_end=0.2, \
+    distance=distance)
+
+styles = [{'color': 'olive', 'label': r'$d^*_{TrTr}$', 'marker': 'x', 's': 1}]
+
+plot_single_CDF_and_EVD(privet.p_tr_tr_NN_dist, privet.label_best_fit, privet.param1, privet.param2, styles, FONTSIZE = 13)
+```
+
 ### Output scores
 
 Constants for columns in the “score matrix” output (see compute_scores_syn_to_ref)    
