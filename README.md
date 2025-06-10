@@ -11,7 +11,7 @@
 
 ### Example
 
-Assuming `Train` and `Synthetic` are loaded as torch tensors of shape `(N, D)` where N is sample size and D is the number of features   
+Assuming `Train` and `Synthetic` are loaded as torch tensors of shape `(N, D)` where N is sample size and D is the number of features (ie. flattened vectors) 
 Having a `Test` set is not mandatory (`Test` is either `None` or loaded too)   
 `Train`, `Test` and `Synthetic` can have different sample sizes.   
 
@@ -80,7 +80,7 @@ Constants for columns in the “score matrix” output (see compute_scores_syn_t
 
 ## Reproducibility
 
-**!!Works with the following tag: v1.1-refactor!!**
+**!!Works with the following tag ONLY: v1.1-refactor!!**
 
 - Main.Fig.2 and Appendix.Fig.7 are reproducible through: compile `PRIVET/experiments/genetic_leakage/65K_SNPs_1668_samples.py` to compute the privacy maps ($\sim 3$ hours on $1 \times$ A100-40GB) then plot them via `PRIVET/experiments/genetic_leakage/PLOT_65K_SNPs_1668_samples.ipynb`. Change the grid from $3 \times 3$ to $31 \times 31$
 
