@@ -15,7 +15,7 @@ Assuming `Train` and `Synthetic` are loaded as torch tensors of shape `(N, D)` w
 Having a `Test` set is not mandatory (`Test` is either `None` or loaded too)   
 `Train`, `Test` and `Synthetic` can have different sample sizes.   
 
-The partition of the data (**a hyperparameter of the method**) on which the EVT fit is applied should be decided upon examination of the cumulative of 1-NN distances between train samples. Yet, default (1\\% to 20\\%) might still be a good choice.
+The partition of the data (**a hyperparameter of the method**) on which the EVT fit is applied should be decided upon examination of the cumulative of 1-NN distances between train samples. Yet, default (1\% to 20\%) might still be a good choice.
 
 ```python
 import sys
