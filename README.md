@@ -121,6 +121,7 @@ Constants for columns in the “score matrix” output (see compute_scores_syn_t
 - [ ] change linear regression to maximum likelihood
 - [ ] update reproducible code with new class
 - [ ] make privet into a package so that you don't have to add path to privet
+- [ ] use FAISS to compute 1-NNs
 
 **Done**
 - [x] Add Gumbel case (it's still estimated via linear regression though) and choose best fit
