@@ -4,11 +4,18 @@
 
 ## Quick start
 
+### Hyperparameters
+
+- Partition of the 1-NN distances for the fit
+- Threshold
+
+### Example
+
 Assuming `Train` and `Synthetic` are loaded as torch tensors of shape `(N, D)` where N is sample size and D is the number of features   
 Having a `Test` set is not mandatory (`Test` is either `None` or loaded too)   
 `Train`, `Test` and `Synthetic` can have different sample sizes.   
 
-The partition of the data (**a hyperparameter of the method**) on which the EVT fit is applied should be decided upon examination of the cumulative of 1-NN distances between train samples. Yet, default ($1\%$ to $20\%$) might still be a good choice.
+The partition of the data (**a hyperparameter of the method**) on which the EVT fit is applied should be decided upon examination of the cumulative of 1-NN distances between train samples. Yet, default (1\\% to 20\\%) might still be a good choice.
 
 ```python
 import sys
@@ -31,12 +38,49 @@ delta_pi = out[:,privet.COL_DELTA_PI] #(out_score cf paper Main.2.3 $\Delta \pi_
 
 threshold = -3
 
-NPL = delta_pi <= -3 #boolean for each synthetic samples: privacy leak or not 
+NPL = delta_pi <= threshold #boolean for each synthetic samples: privacy leak or not 
+```
+
+### Output scores
+
+Constants for columns in the “score matrix” output (see compute_scores_syn_to_ref)    
+
+```python
+(
+    COL_DELTA_PI,                     #(out_score)
+    COL_DELTA_P,                      #(out_score_implicit_decimation_different_ranks)
+    COL_DELTA_PI_RANK_R,              #(out_score)
+    COL_DELTA_P_RANK_R,               #(out_score)
+    COL_BAR_DELTA_PI_RANK_R,          #(out_score_underfitting)
+    COL_SCORE4,                       #(out_score_alternative)  
+    COL_N_OVERFIT_RANK_R,             #(out_score_aggreg_overfit)
+    COL_N_PRIVACY_LEAKS_RANK_R,       #(out_score_aggreg_underfit)
+    COL_MIN_OVERFIT_LEAKS,            #(out_score_aggreg_??) (??)
+    COL_PX_TRAIN,                     #(stats_utils)
+    COL_P_TRAIN,                      #(out_score_order_stat_implicit_decimation)
+    COL_PI_TRAIN,                     #(out_score)
+    COL_PX_TEST,                      #(stats_utils)
+    COL_PI_TEST,                      #(utils_order_stats)
+    COL_ONE_MINUS_PI_TRAIN,           #(utils_order_stats)
+    COL_ONE_MINUS_PI_TEST,            #(utils_order_stats)
+    COL_PX_TEST_RANK_R,               #(stats_utils)
+    COL_PI_TEST_RANK_R,               #(utils_order_stats)
+    COL_ONE_MINUS_PI_TEST_RANK_R,     #(utils_order_stats)
+    COL_RANK_S_TR,                    #(utils)
+    COL_RANK_S_TE,                    #(utils)
+    COL_N_PRIVACY_LEAKS_RANK_R_BIS,   #(out_score_aggreg_underfit) (??)
+    COL_DIST_TR_RANK_R,               #(utils)
+    COL_DIST_TE_RANK_R_PRIME,         #(utils)
+    COL_IDX_TRAIN,                    #(utils)
+    COL_IDX_TEST,                     #(utils)
+    COL_IDX_SYN,                      #(utils)
+    COL_GT                            #(utils)
+)
 ```
 
 ## Reproducibility
 
-**Works with the following tag: v1.1-refactor**
+**!!Works with the following tag: v1.1-refactor!!**
 
 - Main.Fig.2 and Appendix.Fig.7 are reproducible through: compile `PRIVET/experiments/genetic_leakage/65K_SNPs_1668_samples.py` to compute the privacy maps ($\sim 3$ hours on $1 \times$ A100-40GB) then plot them via `PRIVET/experiments/genetic_leakage/PLOT_65K_SNPs_1668_samples.ipynb`. Change the grid from $3 \times 3$ to $31 \times 31$
 
