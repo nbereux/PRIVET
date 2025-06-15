@@ -99,7 +99,7 @@ Constants for columns in the “score matrix” output (see compute_scores_syn_t
 )
 ```
 
-Remark: `COL_DELTA_PI` is the score used in the paper
+Remark: `COL_DELTA_PI` is the score used in the paper  
 
 ## Reproducibility
 
