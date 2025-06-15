@@ -84,6 +84,7 @@ Constants for columns in the “score matrix” output (see compute_scores_syn_t
     COL_PI_TEST,                      #(utils_order_stats)
     COL_ONE_MINUS_PI_TRAIN,           #(utils_order_stats)
     COL_ONE_MINUS_PI_TEST,            #(utils_order_stats)
+    COL_P_TEST,                       #(utils_order_stats)
     COL_PX_TEST_RANK_R,               #(stats_utils)
     COL_PI_TEST_RANK_R,               #(utils_order_stats)
     COL_ONE_MINUS_PI_TEST_RANK_R,     #(utils_order_stats)

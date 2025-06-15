@@ -45,6 +45,7 @@ class PRIVET:
         COL_PI_TEST,                      #(utils_order_stats)
         COL_ONE_MINUS_PI_TRAIN,           #(utils_order_stats)
         COL_ONE_MINUS_PI_TEST,            #(utils_order_stats)
+        COL_P_TEST,                       #(utils_order_stats)
         COL_PX_TEST_RANK_R,               #(stats_utils)
         COL_PI_TEST_RANK_R,               #(utils_order_stats)
         COL_ONE_MINUS_PI_TEST_RANK_R,     #(utils_order_stats)
@@ -57,7 +58,7 @@ class PRIVET:
         COL_IDX_TEST,                     #(utils)
         COL_IDX_SYN,                      #(utils)
         COL_GT                            #(utils)
-    ) = range(28)
+    ) = range(29)
 
     def __init__(
         self,
@@ -219,7 +220,7 @@ class PRIVET:
             mat_syn_test = None
 
         N_syn = mat_syn_train.shape[0]
-        n_cols = 28  
+        n_cols = 29 
         store_in_mat = np.zeros((N_syn, n_cols), dtype=float)
 
         # dictionary mapping: synthetic‐index → rank in sorted table
@@ -340,6 +341,7 @@ class PRIVET:
                 store_in_mat[i_syn, self.COL_N_PRIVACY_LEAKS_RANK_R_BIS] = min(rank_s_tr,n_privacy_leaks_rank_r) #(out_score_aggreg)
                 store_in_mat[i_syn, self.COL_PI_TEST] = pi_test #(out_score_order_stat)
                 store_in_mat[i_syn, self.COL_ONE_MINUS_PI_TEST] = one_minus_pi_test #(out_score_order_stat)
+                store_in_mat[i_syn, self.COL_P_TEST] = p_test #(out_score_order_stat)
                 store_in_mat[i_syn, self.COL_PX_TEST] = px_test #(stats_utils)
                 store_in_mat[i_syn, self.COL_PX_TEST_RANK_R] = px_test_rank_r #(stats_utils)
                 store_in_mat[i_syn, self.COL_PI_TEST_RANK_R] = pi_test_rank_r #(out_score_order_stat)
