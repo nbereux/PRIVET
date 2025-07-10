@@ -6,16 +6,16 @@
 
 ### Hyperparameters
 
-- Partition of the 1-NN distances for the fit
-- Threshold
+- Partition of the Train-Train 1-NN distances on which the EVSTfit 
+- Threshold for binarizing scores into "privacy leak or not" tag
 
 ### Example
 
-Assuming `Train` and `Synthetic` are loaded as torch tensors of shape `(N, D)` where N is sample size and D is the number of features (ie. flattened vectors) 
+Assuming `Train` and `Synthetic` are loaded as torch tensors of shape `(N, D)` where N is sample size and D is the number of features (ie. flattened vectors)   
 Having a `Test` set is not mandatory (`Test` is either `None` or loaded too)   
 `Train`, `Test` and `Synthetic` can have different sample sizes.   
 
-The partition of the data (**a hyperparameter of the method**) on which the EVT fit is applied should be decided upon examination of the cumulative of 1-NN distances between train samples. Yet, default (1\% to 20\%) might still be a good choice.
+The partition of the data (**a hyperparameter of the method**) on which the EVT fit is applied should be decided upon examination of the cumulative of 1-NN distances between pairs of train samples. Yet, default (= 20\%) might still be a good choice (otherwise ranging from 1\% to 20\% at most).
 
 ```python
 import sys
@@ -25,13 +25,16 @@ from src.privet import *
 
 distance = "hamming" # else: "standard_euclidean"
 
+# this computes 1-NN distances within Training set & EVT fit the resulting distribution of 1-NN distances
 privet = PRIVET(train, \
     device, \
     partition_fit_start=0.01, \
     partition_fit_end=0.2, \
     distance=distance)
 
-# if N_Tr = N_Te or Test is None, then renormalization is None
+# if Train and Test have equal sample size or Test is None, then renormalization is None
+# test can be set to None here
+# This computes the 1-NN from synthetic to train & synthetic to test 1-NN distances if test is given, then derives privacy scores
 out = privet.compute_scores_syn_to_ref(synth, test, renormalization = None)
 
 delta_pi = out[:,privet.COL_DELTA_PI] #(out_score cf paper Main.2.3 $\Delta \pi_r$)
