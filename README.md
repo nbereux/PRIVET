@@ -6,7 +6,7 @@
 
 ### Hyperparameters
 
-- Partition of the Train-Train 1-NN distances on which the EVSTfit 
+- Partition of the Train-Train 1-NN distances on which the EVT fit is applied 
 - Threshold for binarizing scores into "privacy leak or not" tag
 
 ### Example
