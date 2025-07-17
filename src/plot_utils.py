@@ -25,7 +25,7 @@ def plot_single_CDF_and_EVD(p_tr_tr, label_fit, param1, param2, styles, FONTSIZE
         x = p_tr_tr.reshape(-1,).astype(np.float64)
         Y_pred_log10 = np.log10(1-np.exp(-np.exp(param1)*x**param2))
         ax.plot(p_tr_tr, Y_pred_log10, color='darkgreen', label=label_fit, linestyle="dashed", alpha=.7)
-        ax.set_ylim([np.log10(1/train.shape[0])-0.1,0.1])
+        ax.set_ylim([np.log10(1/p_tr_tr.shape[0])-0.1,0.1])
 
     if label_fit == "Gumbel":
         x = p_tr_tr.reshape(-1,).astype(np.float64)
